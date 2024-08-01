@@ -12,12 +12,14 @@ interface HomeScreenProps {
   navigation: NavigationProp<any>;
 }
 
+//HomeScreen component
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
 
+  //fetches photos from the API
   useEffect(() => {
     const fetchPhotos = () => {
       const images: Photo[] = [];
@@ -30,18 +32,23 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     fetchPhotos();
   }, []);
 
+  //filters photos based on search term
   const filteredPhotos = photos.filter(photo => photo.id.toString().includes(searchTerm));
 
+  //function to handle photo press
   const handlePhotoPress = (photo: Photo) => {
     setSelectedPhoto(photo);
     setModalVisible(true);
   };
 
+  //function to handle closing the modal
   const handleCloseModal = () => {
     setModalVisible(false);
     setSelectedPhoto(null);
   };
 
+
+  //returns text input and a flatlist of photos
   return (
     <View style={styles.container}>
       <TextInput
@@ -76,6 +83,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   );
 };
 
+//establishes styles for the components
 const styles = StyleSheet.create({
   container: {
     flex: 1,
